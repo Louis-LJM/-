@@ -56,10 +56,10 @@ $(function () {
         $.post('/api/login', formData, function (res) {
             if (res.status === 0) {
                 window.location.href = '/index.html'
-                res.token.length !== 0 &&
-                    window.localStorage.setItem('token', res.token)
+                // res.token.length !== 0 &&
+                //     window.localStorage.setItem('token', res.token)
             }
-            layui.layer.msg(res.message)
+            // layui.layer.msg(res.message)
             console.log(res)
         })
     })

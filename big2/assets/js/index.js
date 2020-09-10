@@ -1,0 +1,94 @@
+// $(function () {
+//     $.ajax({
+//         url: '/my/userinfo',
+//         success: function (res) {
+//             var resname = res.data.nickname || res.data.username
+//             $('#welcome').html(resname)
+
+//             // 存在： 显示图片头像  隐藏文字头像
+//             if (res.data.user_pic) {
+//                 $('.layui-nav-img').attr('src', res.data.user_pic).show()
+//                 $('.text-avatar').hide()
+//             } else {
+//                 // 反之
+//                 $('.layui-nav-img').hide()
+//                 $('.text-avatar').html(resname[0].toUpperCase())
+//             }
+//         },
+//     })
+
+//     // 用户退出
+//     $('#btn-logout').click(function (e) {
+//         e.preventDefault()
+
+//         // 确认框
+//         layui.layer.confirm('is not?', { icon: 3, title: '提示' }, function (
+//             index
+//         ) {
+//             // 清空token
+//             window.localStorage.removeItem('token')
+//             // 跳转登录
+//             window.location.href = '/login.html'
+//             layer.close(index)
+//         })
+//     })
+// })
+
+
+
+
+
+
+$(function () {
+    // 获取用户信息
+    // /my/userinfo /  header / ls中的token
+
+    //   获取登录后保存在本地的token
+    //   var token = window.localStorage.getItem('token') || ''
+    $.ajax({
+        url: '/my/userinfo',
+        // 请求头设置（s不要忘）
+        // headers: {
+        //   Authorization: token,
+        // },
+        success: function (res) {
+            //   debugger  （断点调试）
+            //   console.log(res)
+
+            //   res.data.user_pic
+
+            var resname = res.data.nickname || res.data.username
+            $('#welcome').html(resname)
+
+            // 存在：显示图片头像，隐藏文字头像
+            if (res.data.user_pic) {
+                $('.layui-nav-img').attr('src', res.data.user_pic).show()
+                $('.text-avatar').hide()
+            } else {
+                // 反之
+                $('.layui-nav-img').hide()
+
+                $('.text-avatar').html(resname[0].toUpperCase())
+            }
+        },
+    })
+
+    // 用户退出
+    $('#btn-logout').click(function (e) {
+        // e.preventDefault()
+
+        // 确认框
+        var index = layer.open({
+            title: '提示'
+            , icon: 3
+            , content: '确定退出？'
+            , btn: ['确定', '取消']
+            , btn1: function () {
+                console.log(1)
+                window.location.href = '/login.html'
+                layer.close(index)
+            },
+        });
+
+    })
+})
