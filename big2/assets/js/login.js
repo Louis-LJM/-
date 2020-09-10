@@ -8,8 +8,7 @@ $(function () {
     })
 
     // 表单验证
-    var form = layui.form
-    form.verify({
+    layui.form.verify({
         password: [
             /^[\S]{6,12}$/
             , '密码必须6到12位，且不能出现空格'
@@ -23,6 +22,7 @@ $(function () {
 
 
     // 发送注册请求reg-btn
+    console.log($('.register-box form'))
     $('.register-box form').on('submit', function (e) {
         e.preventDefault();
         var username = $('#userName').val()
@@ -32,17 +32,45 @@ $(function () {
             password: password
         }
         $.post(
-            'http://www.liulongbin.top:3007/api/reguser',
+            '/api/reguser',
             formData,
             function (res) {
                 // console.log(res);
                 if (res.status === 0) {
-                    console.log(res.message);
                     $('.register-box a').click()
+                    // window.location.href = './index.html'
                 }
+                layui.layer.msg(res.message)
             }
         )
     })
+
+
+    // login请求
+    console.log($('#btn-login'))
+    $('#btn-login').submit(function (e) {
+        e.preventDefault();
+        // console.log(1111);
+        var formData = $(this).serialize()
+        console.log(formData);
+        $.post('/api/login', formData, function (res) {
+            if (res.status === 0) {
+                window.location.href = '/index.html'
+                res.token.length !== 0 &&
+                    window.localStorage.setItem('token', res.token)
+            }
+            layui.layer.msg(res.message)
+            console.log(res)
+        })
+    })
+
+
+
+
+
+
+
+
     // 1.阻止默认行为
     // 2.获取表单数据
     // 3.看接口文档  发送ajax
