@@ -22,7 +22,7 @@ $(function () {
 
 
     // 发送注册请求reg-btn
-    console.log($('.register-box form'))
+    // console.log($('.register-box form'))
     $('.register-box form').on('submit', function (e) {
         e.preventDefault();
         var username = $('#userName').val()
@@ -38,7 +38,7 @@ $(function () {
                 // console.log(res);
                 if (res.status === 0) {
                     $('.register-box a').click()
-                    // window.location.href = './index.html'
+                    window.location.href = '/index.html'
                 }
                 layui.layer.msg(res.message)
             }
@@ -47,19 +47,18 @@ $(function () {
 
 
     // login请求
-    console.log($('#btn-login'))
+    // console.log($('#btn-login'))
     $('#btn-login').submit(function (e) {
         e.preventDefault();
-        // console.log(1111);
         var formData = $(this).serialize()
-        console.log(formData);
         $.post('/api/login', formData, function (res) {
             if (res.status === 0) {
+                // 跳转到主页
                 window.location.href = '/index.html'
-                // res.token.length !== 0 &&
-                //     window.localStorage.setItem('token', res.token)
+                res.token.length !== 0 &&
+                    window.localStorage.setItem('token', res.token)
             }
-            // layui.layer.msg(res.message)
+            layui.layer.msg(res.message)
             console.log(res)
         })
     })
